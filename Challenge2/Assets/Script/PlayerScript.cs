@@ -110,15 +110,12 @@ public class PlayerScript : MonoBehaviour
             anim.SetBool("Jumping", false);
         }
 
-
-
-
-
-
-
-        //make the escape key as quit game
-        if (Input.GetKey("escape"))
+        //make the escape key as quit game (stuck when die)
+        /*if (Input.GetKey("escape"))
+        {
             Application.Quit();
+        } */
+
 
     }
 
@@ -142,11 +139,10 @@ public class PlayerScript : MonoBehaviour
         }
         else if (other.gameObject.CompareTag("Enemy"))
         {
+            anim.SetInteger("State", 4);
             other.gameObject.SetActive(false); //destroy
-
             live = live - 1;
             SetLiveText();
-
         }
         if (other.gameObject.CompareTag("Wall"))
         {
@@ -210,8 +206,10 @@ public class PlayerScript : MonoBehaviour
         liveText.text = "Lives: " + live.ToString();
         if (live == 0)
         {
-            Destroy(gameObject); //kill the player
+            anim.SetInteger("State", 3);
             winText.text = "GG noob!";
+            Destroy(this); //set the object inactive
+
         }
 
     }
