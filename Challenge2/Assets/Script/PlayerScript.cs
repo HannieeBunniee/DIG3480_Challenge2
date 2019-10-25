@@ -23,9 +23,12 @@ public class PlayerScript : MonoBehaviour
     Animator anim;
 
     private bool jump = false;
-    private bool facingRight = true; //fliping the cat
-    
 
+    private bool facingRight = true; //fliping the cat
+
+    //cant fly while holding w which doesnt work ==
+    //private bool cooldown = false;
+    
 
     // Start is called before the first frame update
     void Start()
@@ -110,19 +113,14 @@ public class PlayerScript : MonoBehaviour
             anim.SetBool("Jumping", false);
         }
 
-        //make the escape key as quit game (stuck when die)
-        /*if (Input.GetKey("escape"))
-        {
-            Application.Quit();
-        } */
-
-
     }
 
     private void OnCollisionEnter2D(Collision2D other)
     {
         if (other.gameObject.CompareTag("Coin"))
         {
+            
+
             score = score + 1; //plus 1 if pick up a gold
             other.gameObject.SetActive(false); //destroy coin upon pick up
             SetScoreText();
@@ -150,6 +148,7 @@ public class PlayerScript : MonoBehaviour
             anim.SetInteger("State", 1);
             anim.SetBool("Jumping", false);
         }
+  
 
     } 
 
@@ -164,19 +163,18 @@ public class PlayerScript : MonoBehaviour
             jump = false;
             if (Input.GetKey(KeyCode.W))
             {
-                rd2d.AddForce(new Vector2(0, 3), ForceMode2D.Impulse);
+                //Invoke("resetCooldown", 1f); //cooldown 
+                rd2d.AddForce(new Vector2(0, 3), ForceMode2D.Impulse); //make cat jump
                 jump = true;
                 anim.SetInteger("State", 2);
                 anim.SetBool("Jumping", true);
+                //cooldown = true; //cooldown
             }
-            /*if (Input.GetKeyUp(KeyCode.W)) // && jump == false) //stop jump
-            {
-                anim.SetInteger("State", 0);
-                jump = false;
-            } */
+
         }
         else
         {
+
             jump = false;
             anim.SetBool("Jumping", false);
             anim.SetInteger("State", 0);
@@ -227,5 +225,9 @@ public class PlayerScript : MonoBehaviour
         Scaler.x = Scaler.x * -1;
         transform.localScale = Scaler;
     }
-
+    
+    /*void resetCooldown()//jumping button cd
+    {
+        cooldown = false;
+    }*/
 }
