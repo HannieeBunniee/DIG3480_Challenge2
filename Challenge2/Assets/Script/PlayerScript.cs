@@ -24,6 +24,7 @@ public class PlayerScript : MonoBehaviour
 
     private bool jump = false;
 
+
     private bool facingRight = true; //fliping the cat
 
     //cant fly while holding w which doesnt work ==
@@ -113,6 +114,7 @@ public class PlayerScript : MonoBehaviour
             anim.SetBool("Jumping", false);
         }
 
+
     }
 
     private void OnCollisionEnter2D(Collision2D other)
@@ -137,7 +139,7 @@ public class PlayerScript : MonoBehaviour
         }
         else if (other.gameObject.CompareTag("Enemy"))
         {
-            anim.SetInteger("State", 4);
+            anim.SetInteger("State", 4); //hurt animation
             other.gameObject.SetActive(false); //destroy
             live = live - 1;
             SetLiveText();
@@ -174,7 +176,6 @@ public class PlayerScript : MonoBehaviour
         }
         else
         {
-
             jump = false;
             anim.SetBool("Jumping", false);
             anim.SetInteger("State", 0);
